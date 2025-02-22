@@ -22,4 +22,26 @@ function multiply(first: number, second?: number , base: number = 2){
 
 const multi: string = multiply(5).toString();
 
+interface Person {
+    name: string;
+    hp: number;
+    showHp: ()=> void
+}
+
+const healCharacter = (character: Person, amount : number)=>{
+    character.hp+=amount;
+}
+
+const strider: Person = {
+    name: 'Bilbo',
+    hp: 89,
+    showHp(){
+        console.log(`Puntos de vida ${this.hp}`);
+    }
+}
+
+healCharacter(strider, 10);
+strider.showHp();
+
+
 export {}
