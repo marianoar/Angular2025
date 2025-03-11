@@ -3,21 +3,37 @@
 <section class="row">
     <div class="col-12 col-sm-6">
         <h3>Agregar</h3>
-        <input type="text" class="form-control" placeholder="Name">
-        <input type="number" class="form-control mt-2" placeholder="Power">
+        <input 
+            type="text" 
+            class="form-control" 
+            placeholder="Name" 
+            [value]="name()" 
+            (change)="name.set(txtName.value)"
+            #txtName>
+        <input 
+            type="number" 
+            class="form-control mt-2" 
+            placeholder="Power" 
+            [value]="power()"
+            (change)="power.set(+txtPower.value)"
+            #txtPower>
 
-        <button class="mt-2 btn btn-primary">Agregar</button>
+        <button class="mt-2 btn btn-primary" (click)="AddCharacter()">Agregar</button>
     </div>
     <div class="col-12 col-sm-6">
         <!-- new control flow -->
         <h3>Listado</h3>
         <ul>
             @for(character of characters(); track character.id; let idx =$index){ <!--recomienda No usar el indice como track //$index-->
-                <li>
-                    <span>{{idx + 1 }} - {{character.name }} </span>
-                    <strong [class.text-danger]="character.power>500">({{character.power}})</strong>
-                    <!-- [ngClass]="powerClasses()" -->
-                </li>
+                @if(character.power>200){
+                    <li>
+                        <span>{{idx + 1 }} - {{character.name }} </span>
+                        <strong [class.text-danger]="character.power>500">({{character.power}})</strong>
+                        <!-- [ngClass]="powerClasses()" -->
+                    </li>
+                }@else {
+                    <li> personaje ocultado por el if</li>
+                }
             }
         </ul>
     </div>

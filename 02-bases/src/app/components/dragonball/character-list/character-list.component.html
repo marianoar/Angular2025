@@ -1,0 +1,15 @@
+ <!-- new control flow -->
+ <h3>{{listName()}}</h3>
+ <ul>
+     @for(character of characters(); track character.id; let idx =$index){ <!--recomienda No usar el indice como track //$index-->
+         @if(character.power>200){
+             <li>
+                 <span>{{idx + 1 }} - {{character.name }} </span>
+                 <strong [class.text-danger]="character.power>500">({{character.power}})</strong>
+                 <!-- [ngClass]="powerClasses()" -->
+             </li>
+         }@else {
+             <li> personaje ocultado por el if</li>
+         }
+     }
+ </ul>

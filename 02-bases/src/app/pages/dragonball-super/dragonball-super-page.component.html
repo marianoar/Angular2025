@@ -1,0 +1,13 @@
+<h1>Dragon</h1>
+<hr>
+<section class="row">
+    <div class="col-12 col-sm-6">
+        <dbz-add-character (newCharacter)="dbzService.addCharacter($event)"></dbz-add-character>
+    </div>
+    <div class="col-12 col-sm-6">
+        <dbz-character-list 
+        listName="Listado"
+        [characters]="dbzService.characters()"></dbz-character-list>
+       
+    </div>
+</section>
