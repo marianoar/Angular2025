@@ -1,30 +1,32 @@
-import { Component, inject, output } from '@angular/core';
-import { GifListComponent } from "../../components/gif-list/gif-list.component";
+import { Component, ElementRef, inject, output, viewChild } from '@angular/core';
 import { GifsService } from '../../services/gifs.service';
 
-// const imageUrls: string[] = [
-//   "https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg",
-//   "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg",
-//   "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg",
-//   "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg",
-//   "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg",
-//   "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg",
-//   "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-6.jpg",
-//   "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-7.jpg",
-//   "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-8.jpg",
-//   "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-9.jpg",
-//   "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-10.jpg",
-//   "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-11.jpg"
-// ];
 @Component({
   selector: 'app-trending-page',
   // imports: [GifListComponent],
   templateUrl: './trending-page.component.html',
 })
 export default class TrendingPageComponent {
-
-  //gifs: string[] = imageUrls; // o gifs = signal(imageUrl)
-
+  
   gifsService = inject(GifsService);
-
+  //gifs: string[] = imageUrls; // o gifs = signal(imageUrl)
+  
+  scrollDivReference = viewChild<ElementRef<HTMLDivElement>>('groupDiv');
+  
+  onScroll(event: Event) {
+    // console.log("scroll");
+    const scrollDiv = this.scrollDivReference()?.nativeElement;
+    if(!scrollDiv) 
+      return;
+  const scrollTop = scrollDiv.scrollTop;
+  const scrollHeight = scrollDiv.scrollHeight;
+  const clientHeight = scrollDiv.clientHeight;
+  const isAtBottom = scrollTop + clientHeight + 300 >= scrollHeight; // el 250 es para disparar la peticion antes de llegar al final
+ 
+  if(isAtBottom)
+    this.gifsService.loadTrendingGifs();
+  
+  
+  }
+  
 }
