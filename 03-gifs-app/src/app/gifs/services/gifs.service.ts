@@ -50,7 +50,7 @@ export class GifsService {
   loadTrendingGifs() {
     if (this.trendingGifsLoading())
       return;
-this.trendingGifsLoading.set(false);
+    this.trendingGifsLoading.set(false);
 
     this.http.get<GiphyResponse>(`${environment.giphyUrl}/gifs/trending`, {
       params: {
@@ -62,7 +62,7 @@ this.trendingGifsLoading.set(false);
     ).subscribe((response) => {
 
       const gifs = GifMapper.mapGiphyItemsToGifArray(response.data);
-      this.trendingGifs.update( currentGifs => [...currentGifs, ...gifs]);
+      this.trendingGifs.update(currentGifs => [...currentGifs, ...gifs]);
       this.trendingGifsLoading.set(false);
       this.trendingPage.update(page => page + 1);
     })
