@@ -16,6 +16,7 @@ export default class TrendingPageComponent implements AfterViewInit {
 
   scrollDivReference = viewChild<ElementRef<HTMLDivElement>>('groupDiv');
   
+  //igualmente esto no seria lo ideal...
   ngAfterViewInit(): void {
     const scrollDiv = this.scrollDivReference()?.nativeElement;
     if (!scrollDiv)
