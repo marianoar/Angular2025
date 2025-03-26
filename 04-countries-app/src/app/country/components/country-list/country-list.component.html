@@ -1,14 +1,17 @@
 <section class="mt-5">
     <table class="table table-md mt-2 w-full">
         <thead>
-            <tr>
-                <th>#</th>
-                <th>Icono</th>
-                <th>Bandera</th>
-                <th>Nombre</th>
-                <th>Capital</th>
-                <th>Población</th>
-            </tr>
+            @if (countries().length>0) {
+
+                <tr>
+                    <th>#</th>
+                    <th>Icono</th>
+                    <th>Bandera</th>
+                    <th>Nombre</th>
+                    <th>Capital</th>
+                    <th>Población</th>
+                </tr>
+            }
         </thead>
         <tbody>
             @for(country of countries(); track country.cca2; let index=$index){
@@ -19,8 +22,8 @@
                     <td><img [src]="country.flagSvg" [alt]="country.name" class="w-10"></td>
                     <td>{{country.name}}</td>
                     <td>{{country.capital}}</td>
-                    <td>{{country.population}}</td>
-                    <td><a class="link-primary">Más información...</a></td>
+                    <td><span class="badge badge-secondary"> {{country.population | number}}</span> </td>
+                    <td><a [routerLink]="['/country/by',country.cca2]" class="link-primary">Más información...</a></td>
                 </tr>
             }
         </tbody>
