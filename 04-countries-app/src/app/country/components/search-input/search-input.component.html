@@ -5,6 +5,7 @@
         [placeholder]="placeholder()" 
         autofocus
         #txtSearch
-        (keyup.enter)="value.emit(txtSearch.value)">
+        (keyup.enter)="value.emit(txtSearch.value)"
+        (keyup)="inputValue.set(txtSearch.value)">
     <button (click)="value.emit(txtSearch.value)" class="btn btn-warning" >Buscar</button>
 </section>
