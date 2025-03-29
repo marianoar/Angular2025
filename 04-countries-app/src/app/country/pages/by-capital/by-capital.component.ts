@@ -4,6 +4,7 @@ import { CountryListComponent } from "../../components/country-list/country-list
 import { CountryService } from '../../services/country.service';
 import {rxResource } from '@angular/core/rxjs-interop';
 import { firstValueFrom, of } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-by-capital',
@@ -13,12 +14,14 @@ import { firstValueFrom, of } from 'rxjs';
 export class ByCapitalComponent {
 
   countryService = inject(CountryService);
-  query = signal('');
-
+  activatedRoute = inject(ActivatedRoute);
+  queryParam = this.activatedRoute.snapshot.queryParamMap.get('query') ?? '';
+  query = signal(this.queryParam);
 // rxResource
 countryResource = rxResource({
   request:()=>({query: this.query()}),
   loader: ({request})=>{
+    console.log({query:request.query});
    if(!request.query)
     return of([]); // permite regresar un observable basado en lo que se mande a invocar
   return this.countryService.searchByCapital(request.query);
