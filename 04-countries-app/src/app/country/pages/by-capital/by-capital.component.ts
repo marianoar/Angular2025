@@ -1,10 +1,10 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, linkedSignal, signal } from '@angular/core';
 import { SearchInputComponent } from "../../components/search-input/search-input.component";
 import { CountryListComponent } from "../../components/country-list/country-list.component";
 import { CountryService } from '../../services/country.service';
-import {rxResource } from '@angular/core/rxjs-interop';
+import { rxResource } from '@angular/core/rxjs-interop';
 import { firstValueFrom, of } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-by-capital',
@@ -15,18 +15,20 @@ export class ByCapitalComponent {
 
   countryService = inject(CountryService);
   activatedRoute = inject(ActivatedRoute);
+  router = inject(Router);
   queryParam = this.activatedRoute.snapshot.queryParamMap.get('query') ?? '';
-  query = signal(this.queryParam);
-// rxResource
-countryResource = rxResource({
-  request:()=>({query: this.query()}),
-  loader: ({request})=>{
-    console.log({query:request.query});
-   if(!request.query)
-    return of([]); // permite regresar un observable basado en lo que se mande a invocar
-  return this.countryService.searchByCapital(request.query);
-  }
-})
+  query = linkedSignal(()=> this.queryParam);
+  // rxResource
+  countryResource = rxResource({
+    request: () => ({ query: this.query() }),
+    loader: ({ request }) => {
+      // console.log({query:request.query});
+      if (!request.query)
+        return of([]); // permite regresar un observable basado en lo que se mande a invocar
+      this.router.navigate(['/country/by-capital'], { queryParams: { query: request.query } });
+      return this.countryService.searchByCapital(request.query);
+    }
+  })
   // Resource
   // countryResource = resource({
   //   request:()=>({query: this.query()}),
@@ -63,7 +65,7 @@ countryResource = rxResource({
   //           this.isError.set(`${error} ${value}`);
   //         }
   //       }
-        
+
   //     // console.log(res);
   //   );
   // }

@@ -1,6 +1,6 @@
 export type Region =
   | 'Africa'
-  | 'Americas'
+  | 'America'
   | 'Asia'
   | 'Europe'
   | 'Oceania';
