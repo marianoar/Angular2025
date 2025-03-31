@@ -1,0 +1,35 @@
+<section class="mx-10">
+    <h1 class="text-2xl font-bold">
+        Number Pipes
+    </h1>
+    <h3 class="text-xl font-thin">Pipes numericos propios de Angular</h3>
+</section>
+<div class="stats stats-vertical lg:stats-horizontal shadow w-full">
+    <div class="stat">
+        <div class="stat-title">Number sin decimal</div>
+        <div class="stat-value">{{totalSells() | number:'1.0-0'}}</div>
+        <div class="stat-desc">{{totalSells()}}</div>
+      </div>
+    <div class="stat">
+      <div class="stat-title">Number :1.2-2</div>
+      <div class="stat-value">{{totalSells() | number:'1.2-2'}}</div>
+      <div class="stat-desc">{{totalSells()}}</div>
+    </div>
+  
+    <div class="stat">
+      <div class="stat-title">Sumado</div>
+      <div class="stat-value">{{totalSells() + 2000000 | number:'1.0-2'}}</div>
+      <div class="stat-desc">↗︎ 400 (22%)</div>
+    </div>
+  
+    <div class="stat">
+      <div class="stat-title">Currency</div>
+      <div class="stat-value">{{totalSells() | currency}}</div>
+      <div class="stat-desc">{{totalSells()}}</div>
+    </div>
+    <div class="stat">
+        <div class="stat-title">Percent</div>
+        <div class="stat-value">{{percent() | percent}}</div>
+        <div class="stat-desc">{{percent()}}</div>
+      </div>
+  </div>
