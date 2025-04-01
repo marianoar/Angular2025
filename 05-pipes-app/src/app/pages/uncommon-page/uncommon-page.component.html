@@ -6,7 +6,7 @@
   </section>
 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
     <app-card title="i18nSelectPipe">
-        <p>Contenido enviado desde el padre</p>
-        <button class="btn btn-primary"></button>
+        <p>Saludos {{client().name}}, es un placer {{client().gender | i18nSelect: invitationMap}} a algo</p>
+        <button (click)="changeClient()" class="btn btn-primary">Cambiar cliente</button>
     </app-card>
 </div>
