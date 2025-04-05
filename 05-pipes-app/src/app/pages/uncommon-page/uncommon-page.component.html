@@ -36,4 +36,15 @@
     </p>
 
   </app-card>
+  <app-card title="KeyValuePipe">
+    <!-- <pre>{{profile | keyvalue | json}}</pre> Orden es importante -->
+     <ul>
+      @for(item of profile | keyvalue; track $index){
+        <li>
+          <strong class="text-primary"> {{item.key | titlecase }}</strong>
+          <span> {{item.value}}</span>
+        </li>
+      }
+     </ul>
+  </app-card>
 </div>
