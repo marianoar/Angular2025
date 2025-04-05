@@ -1,12 +1,39 @@
 <section class="mx-10 mb-5">
-    <h1 class="text-2xl font-bold">
-      Pipes no tan comunes
-    </h1>
-    <h3 class="text-xl font-thin">Pipes incluidos en Angular</h3>
-  </section>
+  <h1 class="text-2xl font-bold">
+    Pipes no tan comunes
+  </h1>
+  <h3 class="text-xl font-thin">Pipes incluidos en Angular</h3>
+</section>
 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-    <app-card title="i18nSelectPipe">
-        <p>Saludos {{client().name}}, es un placer {{client().gender | i18nSelect: invitationMap}} a algo</p>
-        <button (click)="changeClient()" class="btn btn-primary">Cambiar cliente</button>
-    </app-card>
+  <app-card title="i18nSelectPipe">
+    <p>Saludos {{client().name}}, es un placer {{client().gender | i18nSelect: invitationMap}} a algo</p>
+    <button (click)="changeClient()" class="btn btn-primary">Cambiar cliente</button>
+  </app-card>
+  <app-card title="i18nPluralPipe">
+    <p>Actualmente {{clientes().length | i18nPlural: clientesMap()}} esperando</p>
+    <button [disabled]="clientes().length==0" (click)="deleteClient()" class="btn btn-primary">Borrar cliente</button>
+  </app-card>
+  <app-card title="SlicePipe">
+    <b>Original</b>
+    <p class="text-primary">{{clientes().join(', ')}}</p>
+    <b class="mt-2">Slice:1:3</b>
+    <p class="text-primary">{{clientes() | slice : 1 : 3}}</p>
+    <b class="mt-2">Slice:0:1</b>
+    <p class="text-primary">{{clientes() | slice : 0 : 1}}</p>
+    <b class="mt-2">Slice:0:-3</b>
+    <p class="text-primary">{{clientes() | slice : 0 : -3}}</p>
+
+  </app-card>
+  <app-card title="JSON Pipe">
+    <pre class="primary">
+    {{clientes() | json | titlecase}}
+  </pre>
+    <pre class="primary">
+    {{client() | json}}
+  </pre>
+
+    <p> {{clientes().join(', ') | json | uppercase}}
+    </p>
+
+  </app-card>
 </div>
