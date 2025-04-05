@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { CardComponent } from "../../components/card/card.component";
 import { AsyncPipe, I18nPluralPipe, I18nSelectPipe, JsonPipe, KeyValuePipe, SlicePipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
+import { interval, map, tap } from 'rxjs';
 
 const client1 = {
   name: 'Raviol',
@@ -66,4 +67,10 @@ export default class UncommonPageComponent {
       console.log('Promise ended')
     }, 3500)
   })
+
+  myObservableTimer = interval(5000).pipe(
+    map((value)=> value+1), // esto es para 'saltar' el 0 en el if
+    tap((value)=> console.log('tap: ', value)),
+  )
+// el async se va a encargar de hacer la suscripcion al Observable
 }

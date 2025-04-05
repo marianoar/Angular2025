@@ -56,5 +56,13 @@
      @else {
       <p class="text-accent">Esperando promise...</p>
      }
+     <h3 class="text-xl">Observable</h3>
+     <p> {{myObservableTimer | async}}</p>
+     @if(myObservableTimer | async; as value){
+      <p>Valor: {{value}}</p>
+     }
+     @else {
+      <p class="text-accent">Waiting for first Observable's value </p>
+     }
   </app-card>
 </div>
