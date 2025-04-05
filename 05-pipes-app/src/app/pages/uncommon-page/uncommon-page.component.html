@@ -47,4 +47,14 @@
       }
      </ul>
   </app-card>
+  <app-card title="Async Pipe">
+    {{promiseValue | async}}
+    <!-- espera el valor de la promesa -->
+     @if(promiseValue | async; as value){
+      <p class="text-primary"> {{value}} </p>
+     }
+     @else {
+      <p class="text-accent">Esperando promise...</p>
+     }
+  </app-card>
 </div>
