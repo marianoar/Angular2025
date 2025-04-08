@@ -14,18 +14,23 @@
 </div>
 <div class="divider my-2"></div>
 <section>
-    <h1>Pipes personalizados en acción</h1>
-    <div class="flex gap-2 justify-end w-full">
-        <div class="btn btn-primary">
+    <h1>Filtrando por {{searchQuery()}} ordenando por <strong>{{sortBy()}}</strong></h1>
+    <div class="flex gap-2 justify-end w-full mt-2">
+        <input type="text" class="input input-bordered w-full max-w-xs" placeholder="Buscar..."
+            (input)="searchQuery.set(txtSearch.value)" #txtSearch>
+            
+        <div class="flex flex-1"></div>
+
+        <div (click)="sortBy.set('name')" class="btn btn-primary">
             Por nombre
         </div>
-        <div class="btn btn-warning">
+        <div (click)="sortBy.set('canFly')" class="btn btn-warning">
             Por volar
         </div>
-        <div class="btn btn-secondary">
+        <div (click)="sortBy.set('color')" class="btn btn-secondary">
             Por color
         </div>
-        <div class="btn btn-primary">
+        <div (click)="sortBy.set('creator')" class="btn btn-info">
             Por creador
         </div>
     </div>
@@ -43,30 +48,22 @@
             </tr>
         </thead>
         <tbody>
-            @for(hero of heroes(); track hero.id; let i = $index){
+            @for(hero of heroes() | heroFilter:searchQuery() | heroSortBy:sortBy(); track hero.id; let i = $index){
             <tr>
                 <td>{{i+1}}</td>
                 <td>{{hero.name}}</td>
                 <td>
-                    <span 
-                        class="text-xs w-44"
-                        [class.text-success] = "hero.canFly"
-                        [class.text-accent] = "!hero.canFly"
-                    >
+                    <span class="text-xs w-44" [class.text-success]="hero.canFly" [class.text-accent]="!hero.canFly">
                         {{hero.canFly | canFly}}
                     </span>
                 </td>
                 <td>
-                    <span class="text-xs w-44"
-                    [style.color]="hero.color | heroTextColor"
-                    >
+                    <span class="text-xs w-44" [style.color]="hero.color | heroTextColor">
                         {{hero.color | heroColor | titlecase}}
                     </span>
                 </td>
                 <td>
-                    <span [class.text-primary]='hero.creator==0'
-                          [class.text-primary]='hero.creator==1'
-                    >
+                    <span [class.text-primary]='hero.creator==0' [class.text-primary]='hero.creator==1'>
                         {{hero.creator | heroCreator | uppercase }}
                     </span>
                 </td>
