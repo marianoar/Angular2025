@@ -51,9 +51,6 @@
                     </button>
                 </div>
             </div>
-
-
-
         </form>
 
     </div>
@@ -76,6 +73,13 @@
 
         <span>Value</span>
         <pre>{{ myForm.value | json }}</pre>
+
+        <span>Errores (del form)</span>
+        <pre>{{ myForm.errors | json }}</pre>
+
+        <span>Errores (de un campos especifico)</span>
+        <pre>Name:</pre>
+        <pre>{{ myForm.controls.name.errors| json }}</pre>
 
         <span>Precio</span>
         <pre>{{ myForm.controls.price.value | json }}</pre>
