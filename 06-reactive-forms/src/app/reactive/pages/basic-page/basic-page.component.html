@@ -12,11 +12,11 @@
                 <div class="col-sm-9">
 
                     <input formControlName="name" type="text" class="form-control" placeholder="Nombre del producto">
-                    @if(isValidFile('name')){
+                    @if(formUtils.isValidFile(myForm, 'name')){
 
                     <span class="form-text text-danger">
                         <!-- Debe de ser de 3 letras -->
-                        {{getFieldError('name')}}
+                        {{formUtils.getFieldError(myForm, 'name')}}
                     </span>
                     }
                 </div>
@@ -27,11 +27,11 @@
                 <label class="col-sm-3 col-form-label">Precio</label>
                 <div class="col-sm-9">
                     <input formControlName="price" type="number" class="form-control" placeholder="Precio del producto">
-                    @if(isValidFile('price')){
+                    @if(formUtils.isValidFile(myForm ,'price')){
 
                     <span class="form-text text-danger">
                         <!-- Debe de ser de 3 letras -->
-                        {{getFieldError('price')}}
+                        {{formUtils.getFieldError(myForm, 'price')}}
                     </span>
                     }
                 </div>
@@ -44,11 +44,11 @@
                     <input formControlName="inStorage" type="number" class="form-control"
                         placeholder="Existencias del producto">
 
-                    @if(isValidFile('inStorage')){
+                    @if(formUtils.isValidFile(myForm, 'inStorage')){
 
                     <span class="form-text text-danger">
                         <!-- Debe de ser de 3 letras -->
-                        {{getFieldError('inStorage')}}
+                        {{formUtils.getFieldError(myForm, 'inStorage')}}
                     </span>
                     }
                 </div>
