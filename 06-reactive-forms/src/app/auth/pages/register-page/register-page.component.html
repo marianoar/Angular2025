@@ -12,12 +12,13 @@
                 <div class="col-sm-9">
                     <input type="text"
                            class="form-control"
-                           placeholder="Nombre del usuario"
+                           placeholder="Ingrese Nombre y apellido"
                            formControlName='name'
                            >
                            @if(formUtils.isValidFile(myForm, 'name')){
                             <span class="form-text text-danger">
-                                {{formUtils.getFieldError(myForm, 'name')}}
+                                Debe ingresar Nombre y Apellido.
+                                <!-- {{formUtils.getFieldError(myForm, 'name')}} -->
                             </span>
                         }
                     <!-- <span class="form-text text-danger">
@@ -102,6 +103,11 @@
 
             <div class="row">
                 <div class="col">
+                    @if(myForm.errors && myForm.touched){
+                        <span class="text-danger">
+                            Las contraseñas no son iguales.
+                        </span>
+                    }
                     <button class="btn btn-primary float-end"
                             type="submit">
                         Crear
