@@ -3,20 +3,24 @@ import { FullscreenMapPageComponent } from './pages/fullscreen-map-page/fullscre
 import { MarkersPageComponent } from './pages/markers-page/markers-page.component';
 import { HousesPageComponent } from './pages/houses-page/houses-page.component';
 
-export const routes: Routes =
-    [
-        {
-            path: 'fullscreen', component: FullscreenMapPageComponent, title: 'FullScreen Map'
-        },
-        {
-            path: 'markers', component: MarkersPageComponent, title: 'Marcadores'
-        },
-        {
-            path: 'houses', component: HousesPageComponent, title: 'Properties disponibles'
-        },
-        {
-            path: '**',
-            redirectTo: 'fullscreen'
-        }
-
-    ];
+export const routes: Routes = [
+  {
+    path: 'fullscreen',
+    component: FullscreenMapPageComponent,
+    title: 'FullScreen Map',
+  },
+  {
+    path: 'markers',
+    component: MarkersPageComponent,
+    title: 'Marcadores',
+  },
+  {
+    path: 'houses',
+    component: HousesPageComponent,
+    title: 'Casass disponibles',
+  },
+  {
+    path: '**',
+    redirectTo: 'fullscreen',
+  },
+];
