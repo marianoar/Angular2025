@@ -17,7 +17,7 @@ export const routes: Routes = [
   {
     path: 'houses',
     component: HousesPageComponent,
-    title: 'Casass disponibles',
+    title: 'Casas disponibles',
   },
   {
     path: '**',
