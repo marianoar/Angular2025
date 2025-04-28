@@ -34,8 +34,8 @@ export class FullscreenMapPageComponent implements AfterViewInit {
   divElement = viewChild<ElementRef>('map'); //apunta a la referencia local en el html, devolviendo una signal
   zoom = signal(14);
   coordinates = signal({
-    lng:-74.5,
-    lat: 40
+    lng:-58.406778,
+    lat: -34.638651
   });
 
   map = signal<mapboxgl.Map | null>(null);
