@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
-@theme {
+/* @theme {
   --font-coral: "Coral", sans-serif;
 }
 
 @font-face {
   font-family: "coralpixel";
   src: url("../public/assets/fonts/CoralPixel/CoralPixels-Regular.ttf") format("truetype");
-}
+} */
 
 @plugin "daisyui" {
   themes: night --default, dark --prefersdark;
