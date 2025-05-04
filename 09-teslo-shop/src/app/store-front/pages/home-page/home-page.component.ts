@@ -15,9 +15,9 @@ export class HomePageComponent {
     request: () => ({}),
     loader: ({ request }) => {
       return this.productService.getProducts({
-        limit: 2,
-        offset: 0,
-        gender: 'kids',
+        // limit: 2,
+        // offset: 0,
+        // gender: 'kids',
       });
     },
   });
