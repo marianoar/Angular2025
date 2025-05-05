@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { ProductCardComponent } from '../product-page/product-card/product-card.component';
 import { ProductService } from 'src/app/products/services/products.service';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { ProductCardComponent } from 'src/app/products/components/product-card/product-card.component';
 
 @Component({
   selector: 'app-home-page',

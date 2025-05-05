@@ -3,7 +3,6 @@ import { StoreFrontLayoutComponent } from './layout/store-front-layout/store-fro
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { GenderPageComponent } from './pages/gender-page/gender-page.component';
 import { ProductPageComponent } from './pages/product-page/product-page.component';
-import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
 
 export const storeFrontRoutes: Routes = [
   {
