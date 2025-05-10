@@ -3,8 +3,7 @@ import { ProductService } from 'src/app/products/services/products.service';
 import { rxResource, toSignal } from '@angular/core/rxjs-interop';
 import { ProductCardComponent } from 'src/app/products/components/product-card/product-card.component';
 import { PaginationComponent } from '@products/components/pagination/pagination.component';
-import { ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs';
+import { PaginationService } from '@products/components/pagination/pagination.service';
 
 @Component({
   selector: 'app-home-page',
@@ -13,20 +12,14 @@ import { map } from 'rxjs';
 })
 export class HomePageComponent {
   productService = inject(ProductService);
+  paginationService = inject(PaginationService);
 
-  activatedRoute = inject(ActivatedRoute);
-
-  //tomo la ruta activa de forma dinamica
-  currentPage = toSignal(
-    this.activatedRoute.queryParamMap.pipe(
-      map((params) => (params.get('page') ? +params.get('page')! : 1)),
-      map((page) => (isNaN(page) ? 1 : page))
-    ),
-    { initialValue: 1 }
-  );
-
+  //podria hacerse algo asi tambien
+  // currentPage = toSignal(
+  //   ()=>inject(PaginationService).currentPage()
+  // )
   productsResource = rxResource({
-    request: () => ({ page: this.currentPage() - 1 }),
+    request: () => ({ page: this.paginationService.currentPage() - 1 }),
     loader: ({ request }) => {
       return this.productService.getProducts({
         // limit: 2,
