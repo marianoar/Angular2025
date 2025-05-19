@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@auth/services/auth.service';
 
@@ -13,6 +13,7 @@ export class LoginPageComponent {
   hasError = signal(false);
   isPosting = signal(false);
   authService = inject(AuthService);
+  router = inject(Router);
 
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -29,9 +30,13 @@ export class LoginPageComponent {
     }
 
     const { email = '', password = '' } = this.loginForm.value;
-    console.log({ email, password });
-    this.authService
-      .login(email!, password!)
-      .subscribe((resp) => console.log(resp));
+    // console.log({ email, password });
+    this.authService.login(email!, password!).subscribe((isAuthenticated) => {
+      if (isAuthenticated) {
+        this.router.navigateByUrl('/'); //en verdad habria que 'dejarlo' al usuario en la misma pantalla donde clickeo el login
+        return;
+      }
+      this.hasError.set(false);
+    });
   }
 }
