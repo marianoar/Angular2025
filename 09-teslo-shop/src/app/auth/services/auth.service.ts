@@ -22,6 +22,7 @@ export class AuthService {
   checkStatusResource = rxResource({
     loader: () => this.checkStatus(),
   });
+
   // al ser computed signal es de solo lectura
   authStatus = computed(() => {
     if (this._authStatus() === 'checking') return 'checking';
@@ -32,7 +33,7 @@ export class AuthService {
   });
 
   user = computed(() => this._user());
-  token = computed(() => this._token);
+  token = computed(() => this._token());
 
   login(email: string, password: string): Observable<boolean> {
     return this.http
@@ -54,7 +55,7 @@ export class AuthService {
     }
     return this.http
       .get<AuthResponse>(`${baseURL}/auth/check-status`, {
-        //es reemplazado por el interceptor
+        //  es reemplazado por el interceptor
         // headers: {
         //   Authorization: `Bearer ${token}`,
         // },
@@ -67,16 +68,16 @@ export class AuthService {
   }
 
   logout() {
-    this._authStatus.set('not-authenticated');
-    this._token.set(null);
     this._user.set(null);
+    this._token.set(null);
+    this._authStatus.set('not-authenticated');
     localStorage.removeItem('token');
   }
 
   private handleAuthSuccess({ token, user }: AuthResponse) {
     this._user.set(user);
-    this._token.set(token);
     this._authStatus.set('authenticated');
+    this._token.set(token);
     localStorage.setItem('token', token);
     return true;
   }
