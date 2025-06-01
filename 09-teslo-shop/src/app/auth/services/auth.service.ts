@@ -6,7 +6,7 @@ import { User } from '@auth/interfaces/user.interfaces';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-type AuthStatus = 'checking' | 'authenticated' | 'not-auth';
+type AuthStatus = 'checking' | 'authenticated' | 'not-authenticated';
 const baseURL = environment.baseUrl;
 
 @Injectable({
@@ -28,10 +28,10 @@ export class AuthService {
     if (this._user()) {
       return 'authenticated';
     }
-    return 'not-auth';
+    return 'not-authenticated';
   });
 
-  user = computed(() => this._user);
+  user = computed(() => this._user());
   token = computed(() => this._token);
 
   login(email: string, password: string): Observable<boolean> {
@@ -67,10 +67,10 @@ export class AuthService {
   }
 
   logout() {
-    this._authStatus.set('not-auth');
+    this._authStatus.set('not-authenticated');
     this._token.set(null);
     this._user.set(null);
-    // localStorage.removeItem('token');
+    localStorage.removeItem('token');
   }
 
   private handleAuthSuccess({ token, user }: AuthResponse) {
