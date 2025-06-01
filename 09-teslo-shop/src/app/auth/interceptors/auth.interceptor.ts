@@ -7,12 +7,15 @@ export function authInterceptor(
   next: HttpHandlerFn
 ) {
   // Inject the current `AuthService` and use it to get an authentication token:
-  const authToken = inject(AuthService).token();
+  const token = inject(AuthService).token();
 
-  console.log({ authToken });
-  // Clone the request to add the authentication header.
+  console.log({ token });
+  // Clone the request to add the authentication header. Most aspects of HttpRequest and HttpResponse i
+  // nstances are immutable, and interceptors cannot directly modify them. Instead, interceptors apply mutations
+  // by cloning these objects using the .clone() operation, and specifying which properties should be mutated in
+  // the new instance.
   const newReq = req.clone({
-    headers: req.headers.append('Authorization', `Bearer ${authToken}`),
+    headers: req.headers.append('Authorization', `Bearer ${token}`),
   });
   return next(newReq);
 }
