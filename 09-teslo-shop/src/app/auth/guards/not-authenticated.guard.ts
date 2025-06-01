@@ -11,7 +11,7 @@ export const NotAuthenticatedGuard: CanMatchFn = async (
   const authService = inject(AuthService);
   const router = inject(Router); // necesito el router porque si usuario no esta authenticado necesito sacarlo
   const isAuthenticated = await firstValueFrom(authService.checkStatus()); //manda un observable y espera la respuesta como si fuera una promesa // REVISAR
-  console.log({ isAuthenticated });
+  // console.log({ isAuthenticated });
   if (isAuthenticated) {
     router.navigateByUrl('/');
     return false;

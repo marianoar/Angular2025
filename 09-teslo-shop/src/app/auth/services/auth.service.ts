@@ -86,4 +86,21 @@ export class AuthService {
     this.logout();
     return of(false);
   }
+
+  register(
+    email: string,
+    password: string,
+    fullName: string
+  ): Observable<boolean> {
+    return this.http
+      .post<AuthResponse>(`${environment.baseUrl}/auth/register`, {
+        email: email,
+        password: password,
+        fullName: fullName,
+      })
+      .pipe(
+        map((resp) => this.handleAuthSuccess(resp)),
+        catchError((error: any) => this.handleAuthError(error))
+      );
+  }
 }
