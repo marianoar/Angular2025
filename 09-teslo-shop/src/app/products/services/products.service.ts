@@ -27,7 +27,7 @@ export class ProductService {
 
     // falta validar duration de la cache
     //ver TanstackQuery
-    console.log(this.productsCache.entries());
+    // console.log(this.productsCache.entries());
     const key = `${limit}-${offset}-${gender}`;
 
     if (this.productsCache.has(key)) {
@@ -43,7 +43,7 @@ export class ProductService {
         },
       })
       .pipe(
-        tap((resp) => console.log({ resp })),
+        // tap((resp) => console.log({ resp })),
         tap((resp) => this.productsCache.set(key, resp))
       );
   }
