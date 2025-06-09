@@ -9,6 +9,7 @@
       "@dashboard/*":["./src/app/admin-dashboard/*"],
       "@products/*":["./src/app/shared/*"],
       "@store-front/*":["./src/app/store-front/*"],
+      "@utils/*": ["./src/app/utils/*"],
     },
     "outDir": "./dist/out-tsc",
     "strict": true,
