@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { FormUtils } from '@utils/forms-utils';
 import { FormErrorLabelComponent } from '../../../../../shared/components/form-error-label/form-error-label.component';
+import { ProductService } from 'src/app/products/services/products.service';
 
 @Component({
   selector: 'product-details',
@@ -21,6 +22,7 @@ import { FormErrorLabelComponent } from '../../../../../shared/components/form-e
 })
 export class ProductDetailsComponent implements OnInit {
   product = input.required<Product>();
+  productService = inject(ProductService);
 
   private fb = inject(FormBuilder);
   formUtils = FormUtils;
@@ -66,6 +68,19 @@ export class ProductDetailsComponent implements OnInit {
   }
   onSubmit() {
     console.log(this.productForm.value);
+    const isValid = this.productForm.valid;
+    this.productForm.markAllAsTouched();
+    if (!isValid) return;
+    const formValue = this.productForm.value;
+    const productLike: Partial<Product> = {
+      ...(formValue as any),
+      tags:
+        formValue.tags
+          ?.toLowerCase()
+          .split(',')
+          .map((tag: string) => tag.trim()) ?? [],
+    };
     // this.productForm.value;
+    this.productService.updateProduct(productLike);
   }
 }

@@ -69,4 +69,8 @@ export class ProductService {
       tap((product) => this.productCache.set(id, product))
     );
   }
+
+  updateProduct(productLike: Partial<Product>) {
+    console.log('update');
+  }
 }
