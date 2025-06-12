@@ -8,10 +8,15 @@ import {
   Validators,
 } from '@angular/forms';
 import { FormUtils } from '@utils/forms-utils';
+import { FormErrorLabelComponent } from '../../../../../shared/components/form-error-label/form-error-label.component';
 
 @Component({
   selector: 'product-details',
-  imports: [ReactiveFormsModule, ProductCarouselComponent],
+  imports: [
+    ReactiveFormsModule,
+    ProductCarouselComponent,
+    FormErrorLabelComponent,
+  ],
   templateUrl: './product-details.component.html',
 })
 export class ProductDetailsComponent implements OnInit {
