@@ -56,9 +56,9 @@ export class ProductDetailsComponent implements OnInit {
 
   onSizeChange(size: string) {
     const currentSizes = this.productForm.value.sizes ?? [];
-
+    console.log(size);
     if (currentSizes.includes(size)) {
-      currentSizes.splice(currentSizes.indexof(size), 1);
+      currentSizes.splice(currentSizes.indexOf(size), 1);
     } else {
       currentSizes.push(size);
     }
