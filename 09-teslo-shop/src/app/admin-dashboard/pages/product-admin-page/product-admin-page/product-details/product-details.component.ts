@@ -1,4 +1,11 @@
-import { Component, inject, Inject, input, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  Inject,
+  input,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { Product } from 'src/app/products/interfaces/product-response.interface';
 import { ProductCarouselComponent } from '../../../../../products/components/product-carousel/product-carousel.component';
 import {
@@ -11,6 +18,7 @@ import { FormUtils } from '@utils/forms-utils';
 import { FormErrorLabelComponent } from '../../../../../shared/components/form-error-label/form-error-label.component';
 import { ProductService } from 'src/app/products/services/products.service';
 import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'product-details',
@@ -22,12 +30,13 @@ import { Router } from '@angular/router';
   templateUrl: './product-details.component.html',
 })
 export class ProductDetailsComponent implements OnInit {
-  router= inject(Router);
+  router = inject(Router);
   product = input.required<Product>();
   productService = inject(ProductService);
 
   private fb = inject(FormBuilder);
   formUtils = FormUtils;
+  wasSaved = signal(false);
 
   productForm: FormGroup = this.fb.group({
     title: [undefined, Validators.required],
@@ -69,7 +78,7 @@ export class ProductDetailsComponent implements OnInit {
     this.productForm.patchValue({ sizes: currentSizes });
   }
 
-  onSubmit() {
+  async onSubmit() {
     // console.log(this.productForm.value);
     const isValid = this.productForm.valid;
     this.productForm.markAllAsTouched();
@@ -85,16 +94,20 @@ export class ProductDetailsComponent implements OnInit {
     };
 
     if (this.product().id === 'new') {
-      this.productService.createProduct(productLike).subscribe((prod) => {
-        console.log('created product');
-        this.router.navigate(['/admin/products/', prod.id]);
-      });
+      //recibe Observable and return Promise
+      const product = await firstValueFrom(
+        this.productService.createProduct(productLike)
+      );
+      this.router.navigate(['/admin/products', product.id]);
     } else {
-      this.productService
-        .updateProduct(this.product().id, productLike)
-        .subscribe((prod) => {
-          console.log('updated product');
-        });
+      await firstValueFrom(
+        this.productService.updateProduct(this.product().id, productLike)
+      );
     }
+
+    this.wasSaved.set(true);
+    setTimeout(() => {
+      this.wasSaved.set(false);
+    }, 2500);
   }
 }
