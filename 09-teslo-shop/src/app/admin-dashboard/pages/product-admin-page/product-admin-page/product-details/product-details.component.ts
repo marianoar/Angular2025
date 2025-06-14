@@ -10,6 +10,7 @@ import {
 import { FormUtils } from '@utils/forms-utils';
 import { FormErrorLabelComponent } from '../../../../../shared/components/form-error-label/form-error-label.component';
 import { ProductService } from 'src/app/products/services/products.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'product-details',
@@ -21,6 +22,7 @@ import { ProductService } from 'src/app/products/services/products.service';
   templateUrl: './product-details.component.html',
 })
 export class ProductDetailsComponent implements OnInit {
+  router= inject(Router);
   product = input.required<Product>();
   productService = inject(ProductService);
 
@@ -66,8 +68,9 @@ export class ProductDetailsComponent implements OnInit {
     }
     this.productForm.patchValue({ sizes: currentSizes });
   }
+
   onSubmit() {
-    console.log(this.productForm.value);
+    // console.log(this.productForm.value);
     const isValid = this.productForm.valid;
     this.productForm.markAllAsTouched();
     if (!isValid) return;
@@ -80,11 +83,18 @@ export class ProductDetailsComponent implements OnInit {
           .split(',')
           .map((tag: string) => tag.trim()) ?? [],
     };
-    // this.productForm.value;
-    this.productService
-      .updateProduct(this.product().id, productLike)
-      .subscribe((prod) => {
-        console.log('update produc');
+
+    if (this.product().id === 'new') {
+      this.productService.createProduct(productLike).subscribe((prod) => {
+        console.log('created product');
+        this.router.navigate(['/admin/products/', prod.id]);
       });
+    } else {
+      this.productService
+        .updateProduct(this.product().id, productLike)
+        .subscribe((prod) => {
+          console.log('updated product');
+        });
+    }
   }
 }
