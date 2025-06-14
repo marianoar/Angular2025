@@ -70,7 +70,11 @@ export class ProductService {
     );
   }
 
-  updateProduct(productLike: Partial<Product>) {
+  updateProduct(
+    id: string,
+    productLike: Partial<Product>
+  ): Observable<Product> {
     console.log('update');
+    return this.http.patch<Product>(`${baseUrl}/products/${id}`, productLike);
   }
 }
