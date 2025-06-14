@@ -5,7 +5,7 @@ import {
   Product,
   ProductResponse,
 } from '../interfaces/product-response.interface';
-import { delay, Observable, of, tap } from 'rxjs';
+import { delay, forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '@auth/interfaces/user.interfaces';
 
@@ -17,7 +17,7 @@ interface Options {
   gender?: string;
 }
 
-const  emptyProduct: Product= {
+const emptyProduct: Product = {
   id: 'new',
   title: '',
   price: 0,
@@ -28,8 +28,8 @@ const  emptyProduct: Product= {
   gender: Gender.Unisex,
   tags: [],
   images: [],
-  user: {} as User
-}
+  user: {} as User,
+};
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
@@ -91,15 +91,24 @@ export class ProductService {
 
   updateProduct(
     id: string,
-    productLike: Partial<Product>
+    productLike: Partial<Product>,
+    imageFileList?: FileList
   ): Observable<Product> {
-    console.log('update');
-    return this.http
-      .patch<Product>(`${baseUrl}/products/${id}`, productLike)
-      .pipe(tap((p) => this.updateProductCache(p)));
+    const currentImages = productLike.images ?? [];
+
+    return this.uploadImages(imageFileList).pipe(
+      map((imageNames) => ({
+        ...productLike,
+        images: [...currentImages, ...imageNames],
+      })),
+      switchMap((updatedProduct) =>
+        this.http.patch<Product>(`${baseUrl}/products/${id}`, updatedProduct)
+      ),
+      tap((p) => this.updateProductCache(p))
+    );
   }
 
-  createProduct(productLike: Partial<Product>) {
+  createProduct(productLike: Partial<Product>, imageFileList?: FileList) {
     return this.http
       .post<Product>(`${baseUrl}/products`, productLike)
       .pipe(tap((p) => this.updateProductCache(p, true)));
@@ -115,6 +124,28 @@ export class ProductService {
         });
       });
     }
-    console.log('cache updated');
+  }
+
+  uploadImages(images?: FileList): Observable<string[]> {
+    if (!images) return of([]);
+
+    // const uploadObservables = Array.from(images).map((imageFile) => {
+    //   return this.uploadImage(imageFile);
+    // });
+    const uploadObservables = Array.from(images).map((imageFile) =>
+      this.uploadImage(imageFile)
+    );
+
+    return forkJoin(uploadObservables);
+  }
+
+  uploadImage(imageFile: File): Observable<string> {
+    const formData = new FormData();
+    formData.append('file', imageFile);
+
+    // hago el { fileName: string } para tipar el response, q es un objeto con dos campos
+    return this.http
+      .post<{ fileName: string }>(`${baseUrl}/files/product`, formData)
+      .pipe(map((resp) => resp.fileName));
   }
 }

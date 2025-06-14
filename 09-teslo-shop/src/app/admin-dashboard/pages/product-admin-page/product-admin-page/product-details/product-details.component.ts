@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   inject,
   Inject,
   input,
@@ -37,6 +38,11 @@ export class ProductDetailsComponent implements OnInit {
   private fb = inject(FormBuilder);
   formUtils = FormUtils;
   wasSaved = signal(false);
+  tempImages = signal<string[]>([]);
+  imageFileList: FileList | undefined = undefined;
+  imagesToCarousel = computed(() => {
+    return [...this.product().images, ...this.tempImages()];
+  });
 
   productForm: FormGroup = this.fb.group({
     title: [undefined, Validators.required],
@@ -96,18 +102,32 @@ export class ProductDetailsComponent implements OnInit {
     if (this.product().id === 'new') {
       //recibe Observable and return Promise
       const product = await firstValueFrom(
-        this.productService.createProduct(productLike)
+        this.productService.createProduct(productLike, this.imageFileList)
       );
       this.router.navigate(['/admin/products', product.id]);
     } else {
       await firstValueFrom(
-        this.productService.updateProduct(this.product().id, productLike)
+        this.productService.updateProduct(
+          this.product().id,
+          productLike,
+          this.imageFileList
+        )
       );
     }
 
     this.wasSaved.set(true);
     setTimeout(() => {
       this.wasSaved.set(false);
-    }, 2500);
+    }, 4000);
+  }
+  onFilesChange(event: Event) {
+    this.tempImages.set([]);
+    const fileList = (event.target as HTMLInputElement).files;
+    this.imageFileList = fileList ?? undefined;
+    // console.log(fileList);
+    const imageUrls = Array.from(fileList ?? []).map((file) =>
+      URL.createObjectURL(file)
+    );
+    this.tempImages.set(imageUrls);
   }
 }
